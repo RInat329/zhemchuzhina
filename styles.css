@@ -46,20 +46,49 @@ a {
 }
 
 .site-header {
-  position: absolute;
+  position: fixed;
   top: 12px;
   left: 12px;
   right: 12px;
-  z-index: 20;
+  z-index: 40;
   display: grid;
   gap: 8px;
   padding: 9px;
-  border: 1px solid var(--line-light);
+  border: 1px solid rgba(255, 255, 255, 0.54);
   border-radius: 26px;
-  background: rgba(255, 248, 238, 0.76);
-  box-shadow: 0 16px 42px rgba(9, 19, 18, 0.18);
-  backdrop-filter: blur(20px) saturate(1.16);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(255, 248, 238, 0.2)),
+    rgba(255, 248, 238, 0.58);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.62),
+    inset 0 -1px rgba(255, 255, 255, 0.18),
+    0 18px 52px rgba(9, 19, 18, 0.18);
+  backdrop-filter: blur(24px) saturate(1.32);
   overflow: hidden;
+  transition: transform 260ms ease, opacity 260ms ease, background 260ms ease;
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.58), transparent 34%),
+    linear-gradient(105deg, transparent 18%, rgba(255, 255, 255, 0.32) 45%, transparent 68%);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.site-header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.site-header.is-hidden {
+  opacity: 0;
+  transform: translateY(calc(-100% - 18px));
+  pointer-events: none;
 }
 
 .header-row,
@@ -1527,6 +1556,20 @@ body.is-lightbox-open {
     gap: 18px;
     padding: 10px 12px;
     border-radius: 999px;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 248, 238, 0.16)),
+      rgba(255, 248, 238, 0.44);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.64),
+      inset 0 -1px rgba(255, 255, 255, 0.16),
+      0 18px 58px rgba(9, 19, 18, 0.16);
+    backdrop-filter: blur(30px) saturate(1.42);
+  }
+
+  .site-header.is-hidden {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
   }
 
   .header-row {

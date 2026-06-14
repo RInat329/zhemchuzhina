@@ -5,6 +5,7 @@ const slides = [...document.querySelectorAll(".hero-slide")];
 const dots = [...document.querySelectorAll(".slider-dot")];
 const nextButton = document.querySelector(".slider-next");
 const slider = document.querySelector(".hero-slider");
+const siteHeader = document.querySelector(".site-header");
 const actionDock = document.querySelector(".action-dock");
 const hallsSection = document.querySelector("#halls");
 const hallGalleries = [...document.querySelectorAll("[data-hall-gallery]")];
@@ -509,13 +510,14 @@ const revealHallPrices = () => {
   hallPrices.forEach((price) => priceObserver.observe(price));
 };
 
-const updateActionDock = () => {
-  if (!actionDock || !hallsSection) {
+const updateFloatingControls = () => {
+  if (!hallsSection) {
     return;
   }
 
   if (desktopViewport.matches) {
-    actionDock.classList.remove("is-hidden");
+    actionDock?.classList.remove("is-hidden");
+    siteHeader?.classList.remove("is-hidden");
     lastScrollY = window.scrollY;
     return;
   }
@@ -524,8 +526,10 @@ const updateActionDock = () => {
   const hallsStart = hallsSection.offsetTop;
   const isBeforeHalls = currentScrollY < hallsStart - 24;
   const isScrollingUp = currentScrollY < lastScrollY;
+  const shouldHide = !isBeforeHalls && !isScrollingUp;
 
-  actionDock.classList.toggle("is-hidden", !isBeforeHalls && !isScrollingUp);
+  actionDock?.classList.toggle("is-hidden", shouldHide);
+  siteHeader?.classList.toggle("is-hidden", shouldHide);
   lastScrollY = currentScrollY;
 };
 
@@ -562,10 +566,10 @@ slider?.addEventListener(
   { passive: true }
 );
 
-window.addEventListener("scroll", updateActionDock, { passive: true });
+window.addEventListener("scroll", updateFloatingControls, { passive: true });
 desktopViewport.addEventListener("change", () => {
   startAutoPlay();
-  updateActionDock();
+  updateFloatingControls();
 });
 reducedMotion.addEventListener("change", startAutoPlay);
 
@@ -576,5 +580,5 @@ setupStoryParallax();
 setupReviewsSlider();
 setupPhotoLightbox();
 revealHallPrices();
-updateActionDock();
+updateFloatingControls();
 startAutoPlay();
