@@ -517,9 +517,6 @@ const updateFloatingControls = () => {
 
   if (desktopViewport.matches) {
     actionDock?.classList.remove("is-hidden");
-    siteHeader?.classList.remove("is-hidden");
-    lastScrollY = window.scrollY;
-    return;
   }
 
   const currentScrollY = window.scrollY;
@@ -528,7 +525,10 @@ const updateFloatingControls = () => {
   const isScrollingUp = currentScrollY < lastScrollY;
   const shouldHide = !isBeforeHalls && !isScrollingUp;
 
-  actionDock?.classList.toggle("is-hidden", shouldHide);
+  if (!desktopViewport.matches) {
+    actionDock?.classList.toggle("is-hidden", shouldHide);
+  }
+
   siteHeader?.classList.toggle("is-hidden", shouldHide);
   lastScrollY = currentScrollY;
 };
